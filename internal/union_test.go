@@ -1,6 +1,10 @@
 package internal
 
-import "testing"
+import (
+	"reflect"
+	"strconv"
+	"testing"
+)
 
 func Test_Union(t *testing.T) {
 	t.Run("union string successfully", func(t *testing.T) {
@@ -9,31 +13,39 @@ func Test_Union(t *testing.T) {
 			i1     []string
 			i2     []string
 			expLen int
+			exp    []string
 		}{
 			{
 				Name:   "equal string list",
 				i1:     []string{"1", "2"},
 				i2:     []string{"1", "2"},
 				expLen: 2,
+				exp:    []string{"1", "2"},
 			},
 			{
 				Name:   "non eq str list",
 				i1:     []string{"1", "2", "3"},
 				i2:     []string{"1", "2"},
 				expLen: 3,
+				exp:    []string{"1", "2", "3"},
 			},
 			{
 				Name:   "non eq str list",
 				i1:     []string{},
 				i2:     []string{},
 				expLen: 0,
+				exp:    []string{},
 			},
 		}
 		for _, tc := range tt {
 			t.Run(tc.Name, func(t *testing.T) {
 				got := UnionString(tc.i1, tc.i2)
+				t.Logf("got:%v\n", got)
 				if len(got) != tc.expLen {
 					t.Fatalf("exp:%v,got:%v", tc.expLen, len(got))
+				}
+				if !reflect.DeepEqual(got, tc.exp) {
+					t.Fatalf("exp:%v,got:%v", tc.exp, got)
 				}
 			})
 		}
@@ -44,24 +56,28 @@ func Test_Union(t *testing.T) {
 			i1     []int
 			i2     []int
 			expLen int
+			exp    []int
 		}{
 			{
 				Name:   "equal int list",
 				i1:     []int{1, 2},
 				i2:     []int{1, 2},
 				expLen: 2,
+				exp:    []int{1, 2},
 			},
 			{
 				Name:   "non eq int list",
 				i1:     []int{1, 2, 3},
 				i2:     []int{1, 2},
 				expLen: 3,
+				exp:    []int{1, 2, 3},
 			},
 			{
 				Name:   "non eq int list",
 				i1:     []int{},
 				i2:     []int{},
 				expLen: 0,
+				exp:    []int{},
 			},
 		}
 		for _, tc := range tt {
@@ -69,6 +85,9 @@ func Test_Union(t *testing.T) {
 				got := UnionInt(tc.i1, tc.i2)
 				if len(got) != tc.expLen {
 					t.Fatalf("exp:%v,got:%v", tc.expLen, len(got))
+				}
+				if !reflect.DeepEqual(got, tc.exp) {
+					t.Fatalf("exp:%v,got:%v", tc.exp, got)
 				}
 			})
 		}
@@ -79,24 +98,28 @@ func Test_Union(t *testing.T) {
 			i1     []float64
 			i2     []float64
 			expLen int
+			exp    []float64
 		}{
 			{
 				Name:   "equal float list",
 				i1:     []float64{1, 2},
 				i2:     []float64{1, 2},
 				expLen: 2,
+				exp:    []float64{1, 2},
 			},
 			{
 				Name:   "non eq float list",
 				i1:     []float64{1, 2, 3},
 				i2:     []float64{1, 2},
 				expLen: 3,
+				exp:    []float64{1, 2, 3},
 			},
 			{
 				Name:   "empty float list",
 				i1:     []float64{},
 				i2:     []float64{},
 				expLen: 0,
+				exp:    []float64{},
 			},
 		}
 		for _, tc := range tt {
@@ -104,6 +127,10 @@ func Test_Union(t *testing.T) {
 				got := UnionFloat64(tc.i1, tc.i2)
 				if len(got) != tc.expLen {
 					t.Fatalf("exp:%v,got:%v", tc.expLen, len(got))
+				}
+				if !reflect.DeepEqual(got, tc.exp) {
+					t.Fatalf("exp:%v,got:%v", tc.exp, got)
+
 				}
 			})
 		}
@@ -137,4 +164,59 @@ func Test_Union(t *testing.T) {
 			})
 		}
 	})
+}
+
+func Test_dedupString(t *testing.T) {
+	exp := []string{"1", "2"}
+	got := deDuplicateString(exp)
+	if !reflect.DeepEqual(got, exp) {
+		t.Fatalf("got:%v,exp:%v", got, exp)
+	}
+}
+
+func Test_dedupInt(t *testing.T) {
+	exp := []int{1, 2}
+	got := deDuplicateint(exp)
+	if !reflect.DeepEqual(got, exp) {
+		t.Fatalf("exp:%v,got:%v", exp, got)
+	}
+
+}
+
+func Test_dedupFloat(t *testing.T) {
+	exp := []float64{1, 2}
+	got := deDuplicatefloat64(exp)
+	if !reflect.DeepEqual(got, exp) {
+		t.Fatalf("exp:%v,got:%v", exp, got)
+	}
+}
+
+// two inp elements
+// goos: linux
+// goarch: amd64
+// pkg: github.com/ehrktia/venn/internal
+// cpu: Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
+// BenchmarkDeDupString-8            360528              7814 ns/op
+
+// 50 inp elements
+// goos: linux
+// goarch: amd64
+// pkg: github.com/ehrktia/venn/internal
+// cpu: Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
+// BenchmarkDeDupString-8             15994             63850 ns/op
+
+// 100 inp elements
+// goos: linux
+// goarch: amd64
+// pkg: github.com/ehrktia/venn/internal
+// cpu: Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
+// BenchmarkDeDupString-8             10000            134634 ns/op
+func BenchmarkDeDupString(b *testing.B) {
+	in := []string{}
+	for i := 1; i <= 100; i++ {
+		in = append(in, strconv.Itoa(i))
+	}
+	for i := 0; i <= b.N; i++ {
+		_ = deDuplicateString(in)
+	}
 }

@@ -1,5 +1,9 @@
 package internal
 
+import (
+	"sync"
+)
+
 // UnionAll combines two input slices a1 and a2
 // retains original data from input
 func UnionAll(a1, a2 []interface{}) []interface{} {
@@ -20,13 +24,36 @@ func UnionString(a1, a2 []string) []string {
 
 func deDuplicateString(a1 []string) []string {
 	r := []string{}
-	lookUp := map[string]bool{}
-	for _, data := range a1 {
-		if ok := lookUp[data]; !ok {
-			lookUp[data] = true
-			r = append(r, data)
+	wg := new(sync.WaitGroup)
+	inpOutCh := make(chan string)
+	lookup := make(stringLookUp, 0)
+	// send data
+	wg.Add(1)
+	go func() {
+		defer func() {
+			close(inpOutCh)
+			wg.Done()
+		}()
+		for _, data := range a1 {
+			inpOutCh <- data
 		}
-	}
+	}()
+	// remove duplicates
+	wg.Add(1)
+	go func() {
+		defer func() {
+			wg.Done()
+		}()
+		for v := range inpOutCh {
+			if _, ok := lookup[v]; !ok {
+				lookup[v] = true
+				r = append(r, v)
+			}
+		}
+
+	}()
+	wg.Wait()
+	// read inp
 	return r
 }
 
@@ -42,12 +69,31 @@ func UnionInt(a1, a2 []int) []int {
 func deDuplicateint(a1 []int) []int {
 	r := []int{}
 	lookUp := map[int]bool{}
-	for _, data := range a1 {
-		if ok := lookUp[data]; !ok {
-			lookUp[data] = true
-			r = append(r, data)
+	wg := new(sync.WaitGroup)
+	inCh := make(chan int)
+	wg.Add(1)
+	go func() {
+		defer func() {
+			close(inCh)
+			wg.Done()
+		}()
+		for _, data := range a1 {
+			inCh <- data
 		}
-	}
+	}()
+	wg.Add(1)
+	go func() {
+		defer func() {
+			wg.Done()
+		}()
+		for v := range inCh {
+			if ok := lookUp[v]; !ok {
+				lookUp[v] = true
+				r = append(r, v)
+			}
+		}
+	}()
+	wg.Wait()
 	return r
 }
 
@@ -63,11 +109,30 @@ func UnionFloat64(a1, a2 []float64) []float64 {
 func deDuplicatefloat64(a1 []float64) []float64 {
 	r := []float64{}
 	lookUp := map[float64]bool{}
-	for _, data := range a1 {
-		if ok := lookUp[data]; !ok {
-			lookUp[data] = true
-			r = append(r, data)
+	wg := new(sync.WaitGroup)
+	inCh := make(chan float64)
+	wg.Add(1)
+	go func() {
+		defer func() {
+			close(inCh)
+			wg.Done()
+		}()
+		for _, data := range a1 {
+			inCh <- data
 		}
-	}
+	}()
+	wg.Add(1)
+	go func() {
+		defer func() {
+			wg.Done()
+		}()
+		for v := range inCh {
+			if ok := lookUp[v]; !ok {
+				lookUp[v] = true
+				r = append(r, v)
+			}
+		}
+	}()
+	wg.Wait()
 	return r
 }
