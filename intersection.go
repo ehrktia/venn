@@ -1,12 +1,10 @@
-package intersection
-
-import "github.com/ehrktia/venn/internal"
+package venn
 
 // Intersect combines two different input slices a1 and a2
 // provides unique result
 func IntersectString(a1, a2 []string) []string {
 	r := make([]string, 0, len(a1)+len(a2))
-	uniqueA2 := internal.DeDuplicateString(a2)
+	uniqueA2 := deDuplicateString(a2)
 	lookup := stringconvertToMap(a1)
 	for _, data := range uniqueA2 {
 		if _, ok := lookup[data]; ok {
@@ -20,7 +18,7 @@ func IntersectString(a1, a2 []string) []string {
 // provides unique result
 func IntersectInt(a1, a2 []int) []int {
 	r := make([]int, 0, len(a1)+len(a2))
-	uniqA2 := internal.DeDuplicateint(a2)
+	uniqA2 := deDuplicateint(a2)
 	lookUp := intconvertToMap(a1)
 	for _, data := range uniqA2 {
 		if _, ok := lookUp[data]; ok {
@@ -34,7 +32,7 @@ func IntersectInt(a1, a2 []int) []int {
 // float64 provides a unique result
 func IntersectFloat64(a1, a2 []float64) []float64 {
 	r := make([]float64, 0, len(a1)+len(a2))
-	uniqA2 := internal.DeDuplicatefloat64(a2)
+	uniqA2 := deDuplicatefloat64(a2)
 	lookUp := floatconvertToMap(a1)
 	for _, data := range uniqA2 {
 		if _, ok := lookUp[data]; ok {
@@ -44,9 +42,9 @@ func IntersectFloat64(a1, a2 []float64) []float64 {
 	return r
 }
 
-func stringconvertToMap(a1 []string) internal.StringLookUp {
-	r := make(internal.StringLookUp, len(a1))
-	uniqA1 := internal.DeDuplicateString(a1)
+func stringconvertToMap(a1 []string) stringLookUp {
+	r := make(stringLookUp, len(a1))
+	uniqA1 := deDuplicateString(a1)
 	for _, data := range uniqA1 {
 		r[data] = struct{}{}
 	}
@@ -54,18 +52,18 @@ func stringconvertToMap(a1 []string) internal.StringLookUp {
 
 }
 
-func intconvertToMap(a1 []int) internal.IntLookUp {
-	r := make(internal.IntLookUp, len(a1))
-	uniqA1 := internal.DeDuplicateint(a1)
+func intconvertToMap(a1 []int) intLookUp {
+	r := make(intLookUp, len(a1))
+	uniqA1 := deDuplicateint(a1)
 	for _, data := range uniqA1 {
 		r[data] = true
 	}
 	return r
 }
 
-func floatconvertToMap(a1 []float64) internal.FloatLookUp {
-	r := make(internal.FloatLookUp, len(a1))
-	uniqA1 := internal.DeDuplicatefloat64(a1)
+func floatconvertToMap(a1 []float64) floatLookUp {
+	r := make(floatLookUp, len(a1))
+	uniqA1 := deDuplicatefloat64(a1)
 	for _, data := range uniqA1 {
 		r[data] = true
 	}

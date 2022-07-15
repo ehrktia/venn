@@ -1,14 +1,14 @@
-package internal
+package venn
 
 import (
 	"sync"
 )
 
-func DeDuplicateString(a1 []string) []string {
+func deDuplicateString(a1 []string) []string {
 	r := make([]string, 0, len(a1))
 	wg := new(sync.WaitGroup)
 	inpOutCh := make(chan string)
-	lookup := make(StringLookUp, 0)
+	lookup := make(stringLookUp, 0)
 	// send data
 	wg.Add(1)
 	go func() {
@@ -40,7 +40,7 @@ func DeDuplicateString(a1 []string) []string {
 	return r
 }
 
-func DeDuplicateint(a1 []int) []int {
+func deDuplicateint(a1 []int) []int {
 	r := make([]int, 0, len(a1))
 	lookUp := map[int]bool{}
 	wg := new(sync.WaitGroup)
@@ -71,7 +71,7 @@ func DeDuplicateint(a1 []int) []int {
 	return r
 }
 
-func DeDuplicatefloat64(a1 []float64) []float64 {
+func deDuplicatefloat64(a1 []float64) []float64 {
 	r := make([]float64, 0, len(a1))
 	lookUp := map[float64]bool{}
 	wg := new(sync.WaitGroup)

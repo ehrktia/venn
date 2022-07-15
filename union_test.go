@@ -1,11 +1,9 @@
-package union
+package venn
 
 import (
 	"reflect"
 	"strconv"
 	"testing"
-
-	"github.com/ehrktia/venn/internal"
 )
 
 func Test_Union(t *testing.T) {
@@ -170,7 +168,7 @@ func Test_Union(t *testing.T) {
 
 func Test_dedupString(t *testing.T) {
 	exp := []string{"1", "2"}
-	got := internal.DeDuplicateString(exp)
+	got := deDuplicateString(exp)
 	if !reflect.DeepEqual(got, exp) {
 		t.Fatalf("got:%v,exp:%v", got, exp)
 	}
@@ -178,7 +176,7 @@ func Test_dedupString(t *testing.T) {
 
 func Test_dedupInt(t *testing.T) {
 	exp := []int{1, 2}
-	got := internal.DeDuplicateint(exp)
+	got := deDuplicateint(exp)
 	if !reflect.DeepEqual(got, exp) {
 		t.Fatalf("exp:%v,got:%v", exp, got)
 	}
@@ -187,7 +185,7 @@ func Test_dedupInt(t *testing.T) {
 
 func Test_dedupFloat(t *testing.T) {
 	exp := []float64{1, 2}
-	got := internal.DeDuplicatefloat64(exp)
+	got := deDuplicatefloat64(exp)
 	if !reflect.DeepEqual(got, exp) {
 		t.Fatalf("exp:%v,got:%v", exp, got)
 	}
@@ -196,21 +194,18 @@ func Test_dedupFloat(t *testing.T) {
 // two inp elements
 // goos: linux
 // goarch: amd64
-// pkg: github.com/ehrktia/venn/internal
 // cpu: Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
 // BenchmarkDeDupString-8            360528              7814 ns/op
 
 // 50 inp elements
 // goos: linux
 // goarch: amd64
-// pkg: github.com/ehrktia/venn/internal
 // cpu: Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
 // BenchmarkDeDupString-8             15994             63850 ns/op
 
 // 100 inp elements
 // goos: linux
 // goarch: amd64
-// pkg: github.com/ehrktia/venn/internal
 // cpu: Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
 // BenchmarkDeDupString-8             10000            134634 ns/op
 func BenchmarkDeDupString(b *testing.B) {
@@ -219,6 +214,6 @@ func BenchmarkDeDupString(b *testing.B) {
 		in = append(in, strconv.Itoa(i))
 	}
 	for i := 0; i <= b.N; i++ {
-		_ = internal.DeDuplicateString(in)
+		_ = deDuplicateString(in)
 	}
 }
