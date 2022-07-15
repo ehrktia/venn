@@ -212,7 +212,7 @@ func Test_dedupFloat(t *testing.T) {
 // cpu: Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
 // BenchmarkDeDupString-8             10000            134634 ns/op
 func BenchmarkDeDupString(b *testing.B) {
-	in := []string{}
+	in := make([]string, 0, 100)
 	for i := 1; i <= 100; i++ {
 		in = append(in, strconv.Itoa(i))
 	}

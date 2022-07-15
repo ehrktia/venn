@@ -17,8 +17,7 @@ func UnionAll(a1, a2 []interface{}) []interface{} {
 // provides unique result
 func UnionString(a1, a2 []string) []string {
 	r := []string{}
-	r = append(r, a1...)
-	r = append(r, a2...)
+	r = append(append(r, a1...), a2...)
 	return deDuplicateString(r)
 }
 
@@ -44,9 +43,10 @@ func deDuplicateString(a1 []string) []string {
 		defer func() {
 			wg.Done()
 		}()
+		// TODO: most expensive operation find alternative
 		for v := range inpOutCh {
 			if _, ok := lookup[v]; !ok {
-				lookup[v] = true
+				lookup[v] = struct{}{}
 				r = append(r, v)
 			}
 		}

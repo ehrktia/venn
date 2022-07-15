@@ -52,7 +52,7 @@ func Test_convert_map(t *testing.T) {
 			name:   "valid no dup string list",
 			inp:    []string{"a", "b", "c"},
 			expLen: 3,
-			exp:    stringLookUp{"a": true, "b": true, "c": true},
+			exp:    stringLookUp{"a": {}, "b": {}, "c": {}},
 		},
 		{
 			name:   "nil input",
