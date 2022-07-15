@@ -8,7 +8,7 @@
 ![GitHub go.mod Go version (branch)](https://img.shields.io/github/go-mod/go-version/ehrktia/venn/main)
 ![GitHub go.mod Go version (subdirectory of monorepo)](https://img.shields.io/github/go-mod/go-version/ehrktia/venn)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ehrktia/venn/Test)
-
+[![Go Reference](https://pkg.go.dev/badge/github.com/ehrktia/venn.svg)](https://pkg.go.dev/github.com/ehrktia/venn)
 Venn follows unix principle and does only one thing i.e - union and intersection operations on data sets.
 
 ## Union 
