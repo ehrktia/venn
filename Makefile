@@ -11,3 +11,4 @@ all: help
 
 test:
 	go test -cover ./...
+
