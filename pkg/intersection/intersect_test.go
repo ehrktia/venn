@@ -1,8 +1,10 @@
-package internal
+package intersection
 
 import (
 	"reflect"
 	"testing"
+
+	"github.com/ehrktia/venn/internal"
 )
 
 func Test_intersect_string(t *testing.T) {
@@ -45,20 +47,20 @@ func Test_convert_map(t *testing.T) {
 	tt := []struct {
 		name   string
 		inp    []string
-		exp    stringLookUp
+		exp    internal.StringLookUp
 		expLen int
 	}{
 		{
 			name:   "valid no dup string list",
 			inp:    []string{"a", "b", "c"},
 			expLen: 3,
-			exp:    stringLookUp{"a": {}, "b": {}, "c": {}},
+			exp:    internal.StringLookUp{"a": {}, "b": {}, "c": {}},
 		},
 		{
 			name:   "nil input",
 			inp:    nil,
 			expLen: 0,
-			exp:    stringLookUp{},
+			exp:    internal.StringLookUp{},
 		},
 	}
 	for _, tc := range tt {

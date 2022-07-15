@@ -1,5 +1,5 @@
 package internal
 
-type stringLookUp map[string]struct{}
-type intLookUp map[int]bool
-type floatLookUp map[float64]bool
+type StringLookUp map[string]struct{}
+type IntLookUp map[int]bool
+type FloatLookUp map[float64]bool

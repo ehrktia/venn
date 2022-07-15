@@ -1,9 +1,11 @@
-package internal
+package union
 
 import (
 	"reflect"
 	"strconv"
 	"testing"
+
+	"github.com/ehrktia/venn/internal"
 )
 
 func Test_Union(t *testing.T) {
@@ -168,7 +170,7 @@ func Test_Union(t *testing.T) {
 
 func Test_dedupString(t *testing.T) {
 	exp := []string{"1", "2"}
-	got := deDuplicateString(exp)
+	got := internal.DeDuplicateString(exp)
 	if !reflect.DeepEqual(got, exp) {
 		t.Fatalf("got:%v,exp:%v", got, exp)
 	}
@@ -176,7 +178,7 @@ func Test_dedupString(t *testing.T) {
 
 func Test_dedupInt(t *testing.T) {
 	exp := []int{1, 2}
-	got := deDuplicateint(exp)
+	got := internal.DeDuplicateint(exp)
 	if !reflect.DeepEqual(got, exp) {
 		t.Fatalf("exp:%v,got:%v", exp, got)
 	}
@@ -185,7 +187,7 @@ func Test_dedupInt(t *testing.T) {
 
 func Test_dedupFloat(t *testing.T) {
 	exp := []float64{1, 2}
-	got := deDuplicatefloat64(exp)
+	got := internal.DeDuplicatefloat64(exp)
 	if !reflect.DeepEqual(got, exp) {
 		t.Fatalf("exp:%v,got:%v", exp, got)
 	}
@@ -217,6 +219,6 @@ func BenchmarkDeDupString(b *testing.B) {
 		in = append(in, strconv.Itoa(i))
 	}
 	for i := 0; i <= b.N; i++ {
-		_ = deDuplicateString(in)
+		_ = internal.DeDuplicateString(in)
 	}
 }
