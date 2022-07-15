@@ -15,7 +15,7 @@ func ExampleUnionString() {
 	}
 	combine(a1, a2)
 	// Output
-	// UnionString([]string{"a","b","c"},[]string{"a","b"}) =
+	// UnionString([]string{"a","b","c"},[]string{"a","b","c"}) =
 	// []string{"a","b","c"}
 }
 
@@ -28,6 +28,6 @@ func ExampleIntersectString() {
 	}
 	join(a1, a2)
 	// Output
-	// IntersectString([]string{"a","b","c"},[]string{"a","b"}) =
-	// []string{"a","b"}
+	// IntersectString([]string{"a","b","c"},[]string{"a","b","c"}) =
+	// []string{"a","b","c"}
 }
