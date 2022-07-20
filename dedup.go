@@ -8,7 +8,7 @@ func deDuplicateString(a1 []string) []string {
 	r := make([]string, 0, len(a1))
 	wg := new(sync.WaitGroup)
 	inpOutCh := make(chan string)
-	lookup := make(stringLookUp, 0)
+	lookup := make(stringLookUp)
 	// send data
 	wg.Add(1)
 	go func() {

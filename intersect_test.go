@@ -165,3 +165,20 @@ func Test_intersect_float(t *testing.T) {
 	}
 
 }
+
+// goos: darwin
+// goarch: amd64
+// pkg: github.com/ehrktia/venn
+// cpu: Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz
+// BenchmarkIntersectString-16       155671              7333 ns/op
+// PASS
+// ok      github.com/ehrktia/venn 1.366s
+// 7.4 micro seconds/op
+func BenchmarkIntersectString(b *testing.B) {
+	a1 := []string{"a", "b"}
+	a2 := []string{"a", "b", "c"}
+	for i := 0; i <= b.N; i++ {
+		_ = IntersectString(a1, a2)
+
+	}
+}
