@@ -217,3 +217,4 @@ func BenchmarkDeDupString(b *testing.B) {
 		_ = deDuplicateString(in)
 	}
 }
+
